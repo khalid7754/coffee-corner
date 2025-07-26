@@ -1,0 +1,115 @@
+from flask import Flask, render_template_string
+
+app = Flask(__name__)
+
+HTML_TEMPLATE = """
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Your Coffee Shop</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f1ee;
+      color: #333;
+    }
+    header {
+      background-color: #3e2723;
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    nav {
+      background-color: #6d4c41;
+      text-align: center;
+      padding: 10px;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed #aaa;
+      padding: 8px 0;
+    }
+    .contact, .about {
+      background-color: #efebe9;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    footer {
+      background-color: #3e2723;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Your Coffee Shop</h1>
+    <p>Warm. Local. Delicious.</p>
+  </header>
+
+  <nav>
+    <a href="#menu">Menu</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section id="menu">
+    <h2>Our Menu</h2>
+    {% for item, price in menu_items %}
+    <div class="menu-item">
+      <span>{{ item }}</span>
+      <span>{{ price }}</span>
+    </div>
+    {% endfor %}
+    <p style="margin-top: 15px; font-style: italic;">*Prices and items are editable.</p>
+  </section>
+
+  <section id="about" class="about">
+    <h2>About Us</h2>
+    <p>Welcome to Your Coffee Shop — your cozy spot for great coffee and friendly conversations. We use only freshly roasted beans and offer a variety of drinks made with love. Whether you're here for a quick espresso or a relaxing afternoon, we're happy to have you.</p>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2>Contact</h2>
+    <p><strong>Address:</strong> 123 Coffee Lane, Your City</p>
+    <p><strong>Phone:</strong> (123) 456-7890</p>
+    <p><strong>Hours:</strong> Mon–Sat: 8am – 8pm | Sun: 9am – 5pm</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Your Coffee Shop. All rights reserved.</p>
+  </footer>
+</body>
+</html>
+"""
+
+@app.route('/')
+def home():
+    menu_items = [
+        ('Espresso', '$2.50'),
+        ('Cappuccino', '$3.00'),
+        ('Latte', '$3.50'),
+        ('Mocha', '$3.75'),
+        ('Cold Brew', '$3.00')
+    ]
+    return render_template_string(HTML_TEMPLATE, menu_items=menu_items)
+
+if __name__ == '__main__':
+    app.run(debug=True)
